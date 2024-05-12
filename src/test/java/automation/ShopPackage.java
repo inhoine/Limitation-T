@@ -35,9 +35,10 @@ public class ShopPackage {
 
             // Write featureLimit to LocalStore.json
             LocalFileWriter.writeLocalToFile(featureLimit, "src/test/java/files/LocalStore.json");
+
             // Ensure all JSON files are not empty and then perform comparisons
-            String databaseJsonPath = "/src/test/java/files/Database.json";
-            String localStoreJsonPath = "/src/test/java/files/LocalStore.json";
+            String databaseJsonPath = "src/test/java/files/Database.json";
+            String localStoreJsonPath = "src/test/java/files/LocalStore.json";
             if (JsonFileManager.areFilesReady(excelJsonPath, databaseJsonPath, apiJsonPath, localStoreJsonPath)) {
                 // Compare Excel.json with Database.json
                 if (DataComparer.compareJson(excelJsonPath, databaseJsonPath)) {

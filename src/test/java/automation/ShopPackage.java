@@ -13,10 +13,10 @@ public class ShopPackage {
             driver = WebDriverSetup.setupDriver();
             String accessToken = LoginActions.login(driver);
             String tokenParsed = TokenManager.decodeToken(accessToken);
-            TokenManager.writeTokenParseToFile(tokenParsed, "/Users/tranbao/limitationProject/src/test/java/files/infoPackageShop.json");
-            JsonFileManager.printSpecificKeysAndValuesFromJsonFile("/Users/tranbao/limitationProject/src/test/java/files/infoPackageShop.json");
+            TokenManager.writeTokenParseToFile(tokenParsed, "src/test/java/files/infoPackageShop.json");
+            JsonFileManager.printSpecificKeysAndValuesFromJsonFile("src/test/java/files/infoPackageShop.json");
 
-            if (JsonFileManager.checkMissingKeys("/Users/tranbao/limitationProject/src/test/java/files/infoPackageShop.json", "nextExpiryPackageTime", "bundleFeatureName", "bundleFeatureCode")) {
+            if (JsonFileManager.checkMissingKeys("src/test/java/files/infoPackageShop.json", "nextExpiryPackageTime", "bundleFeatureName", "bundleFeatureCode")) {
                 OldShopHandler.handleOldShopScenario(driver);
             }
 
@@ -25,19 +25,19 @@ public class ShopPackage {
             String featureLimit = (String) jsExecutor.executeScript("return window.localStorage.getItem('featureLimit');");
 
             // Convert Excel to JSON and sort it
-            String excelPath = "/Users/tranbao/Downloads/GoSELL Pricing.xlsx";
-            String excelJsonPath = "/Users/tranbao/limitationProject/src/test/java/files/Excel.json";
+            String excelPath = "src/file/GoSELL Pricing.xlsx";
+            String excelJsonPath = "src/test/java/files/Excel.json";
             ExcelToJsonConverter.convertExcelToJson(excelPath, excelJsonPath);
 
             // Fetch API data and save it to Api.json
-            String apiJsonPath = "/Users/tranbao/limitationProject/src/test/java/files/Api.json";
+            String apiJsonPath = "src/test/java/files/Api.json";
             APIClient.fetchFeatureConfigurationsAndSave(accessToken, apiJsonPath);
 
             // Write featureLimit to LocalStore.json
-            LocalFileWriter.writeLocalToFile(featureLimit, "/Users/tranbao/limitationProject/src/test/java/files/LocalStore.json");
+            LocalFileWriter.writeLocalToFile(featureLimit, "src/test/java/files/LocalStore.json");
             // Ensure all JSON files are not empty and then perform comparisons
-            String databaseJsonPath = "/Users/tranbao/limitationProject/src/test/java/files/Database.json";
-            String localStoreJsonPath = "/Users/tranbao/limitationProject/src/test/java/files/LocalStore.json";
+            String databaseJsonPath = "/src/test/java/files/Database.json";
+            String localStoreJsonPath = "/src/test/java/files/LocalStore.json";
             if (JsonFileManager.areFilesReady(excelJsonPath, databaseJsonPath, apiJsonPath, localStoreJsonPath)) {
                 // Compare Excel.json with Database.json
                 if (DataComparer.compareJson(excelJsonPath, databaseJsonPath)) {

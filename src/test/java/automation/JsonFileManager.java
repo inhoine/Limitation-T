@@ -20,7 +20,7 @@ public class JsonFileManager {
         int yearsOfFeatureLimitation = jsonNode.has("yearsOfFeatureLimitation") ? jsonNode.get("yearsOfFeatureLimitation").asInt(-1) : -1;
         String labelFeatureLimitation = jsonNode.has("labelFeatureLimitation") ? jsonNode.get("labelFeatureLimitation").asText("Không có") : "Unavailable";
 
-        // Kiểm tra nếu không phải là shop cũ thì mới in thông tin
+        // Chỉ in thông tin nếu đây là shop mới (có thông tin cập nhật)
         if (!(bundleFeatureName.equals("Không có") && bundleFeatureCode.equals("Không có") && yearsOfFeatureLimitation == -1 && labelFeatureLimitation.equals("Unavailable"))) {
             System.out.println("b. Các key và value từ file infoPackageShop:");
             System.out.println("bundleFeatureName: " + bundleFeatureName);
@@ -28,6 +28,9 @@ public class JsonFileManager {
             System.out.println("yearsOfFeatureLimitation: " + yearsOfFeatureLimitation);
             System.out.println("labelFeatureLimitation: " + labelFeatureLimitation);
             System.out.println("");
+        } else {
+            // Đây là shop cũ, không in thông tin
+            System.out.println("Thông tin không được hiển thị vì đây là shop cũ.");
         }
     }
     public static void updateLocalStoreJson(String key, String value, String filePath) throws IOException {

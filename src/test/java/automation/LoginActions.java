@@ -17,12 +17,12 @@ public class LoginActions {
         driver.get("https://ca-gosell.mediastep.ca");
 
         // Acc shop cũ
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username"))).sendKeys("clone.zone.zick995@gmail.com");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("1311518131Aa!");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username"))).sendKeys("clone.zone.zick995@gmail.com");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("1311518131Aa!");
 
         // Acc shop mới
-         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username"))).sendKeys("bao.tran.quoc@gosell.vn");
-         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("Bao310194@");
+//         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username"))).sendKeys("bao.tran.quoc@gosell.vn");
+//         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("Bao310194@");
 
         wait.until(ExpectedConditions.elementToBeClickable(By.className("gs-button"))).click();
         System.out.println("I. Login with owner account Successfully!");

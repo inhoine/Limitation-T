@@ -74,7 +74,7 @@ public class JsonFileManager {
 
     public static void saveToJsonFile(LinkedHashMap<String, LinkedHashMap<String, String>> data) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File("/Users/tranbao/limitationProject/src/test/java/files/Database.json");
+        File file = new File("src/test/java/files/Database.json");
         file.getParentFile().mkdirs();  // Đảm bảo thư mục tồn tại
         mapper.writeValue(file, data);
         System.out.println("b. Dữ liệu đã được lưu vào file Database.json thành công!");

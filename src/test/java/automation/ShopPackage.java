@@ -20,7 +20,7 @@ public class ShopPackage {
                 OldShopHandler.handleOldShopScenario(driver);
             }
 
-            // Get featureLimit from Local Storage
+            // Get featureLimit from Local Stora8ge
             JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
             String featureLimit = (String) jsExecutor.executeScript("return window.localStorage.getItem('featureLimit');");
 

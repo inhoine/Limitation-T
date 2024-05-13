@@ -2,27 +2,17 @@ package automation;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class ShopPackage {
-    private WebDriver driver;
-    private Connection conn;
-
-    @BeforeClass
-    public void setUp() throws SQLException {
-        // Thiết lập WebDriver và kết nối cơ sở dữ liệu trước khi thực hiện các test
-        driver = WebDriverSetup.setupDriver();
-        conn = DatabaseConnection.connectToDatabase();
-    }
 
     @Test
-    public void testShopFunctions() {
+    public void testShopPackageFunctionality() {
+        WebDriver driver = null;
+        Connection conn = null;
         try {
+            driver = WebDriverSetup.setupDriver();
             String accessToken = LoginActions.login(driver);
             String tokenParsed = TokenManager.decodeToken(accessToken);
             TokenManager.writeTokenParseToFile(tokenParsed, "src/test/java/files/infoPackageShop.json");
@@ -32,66 +22,66 @@ public class ShopPackage {
                 OldShopHandler.handleOldShopScenario(driver);
             }
 
-            // Lấy giới hạn tính năng từ Local Storage
+            // Get featureLimit from Local Storage
             JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
             String featureLimit = (String) jsExecutor.executeScript("return window.localStorage.getItem('featureLimit');");
 
-            // Chuyển đổi Excel sang JSON và sắp xếp
+            // Convert Excel to JSON and sort it
             String excelPath = "src/file/GoSELL Pricing.xlsx";
             String excelJsonPath = "src/test/java/files/Excel.json";
             ExcelToJsonConverter.convertExcelToJson(excelPath, excelJsonPath);
 
-            // Tải dữ liệu API và lưu vào Api.json
+            // Fetch API data and save it to Api.json
             String apiJsonPath = "src/test/java/files/Api.json";
             APIClient.fetchFeatureConfigurationsAndSave(accessToken, apiJsonPath);
 
-            // Viết giới hạn tính năng vào LocalStore.json
+            // Write featureLimit to LocalStore.json
             LocalFileWriter.writeLocalToFile(featureLimit, "src/test/java/files/LocalStore.json");
 
-            // Đảm bảo tất cả các file JSON không trống và thực hiện so sánh
+            // Ensure all JSON files are not empty and then perform comparisons
             String databaseJsonPath = "src/test/java/files/Database.json";
             String localStoreJsonPath = "src/test/java/files/LocalStore.json";
             if (JsonFileManager.areFilesReady(excelJsonPath, databaseJsonPath, apiJsonPath, localStoreJsonPath)) {
-                // So sánh Excel.json với Database.json
+                // Compare Excel.json with Database.json
                 if (DataComparer.compareJson(excelJsonPath, databaseJsonPath)) {
-                    System.out.println("II. So sánh dữ liệu với các file.");
-                    System.out.println("1. Dữ liệu từ Excel.json và Database.json khớp.");
+                    System.out.println("II. Compare data with files.");
+                    System.out.println("1. Data from Excel.json and Database.json match.");
 
-                    // So sánh Database.json với Api.json
+                    // Compare Database.json with Api.json
                     if (DataComparer.compareJson(databaseJsonPath, apiJsonPath)) {
-                        System.out.println("2. Dữ liệu từ Database.json và Api.json khớp.");
+                        System.out.println("2. Data from Database.json and Api.json match.");
 
-                        // So sánh Api.json với LocalStore.json
+                        // Compare Api.json with LocalStore.json
                         if (DataComparer.compareJson(apiJsonPath, localStoreJsonPath)) {
-                            System.out.println("3. Dữ liệu từ Api.json và LocalStore.json khớp.");
+                            System.out.println("3. Data from Api.json and LocalStore.json match.");
                         } else {
-                            System.out.println("3. Dữ liệu từ Api.json và LocalStore.json không khớp.");
+                            System.out.println("3. Data from Api.json and LocalStore.json do not match.");
                         }
                     } else {
-                        System.out.println("2. Dữ liệu từ Database.json và Api.json không khớp.");
+                        System.out.println("2. Data from Database.json and Api.json do not match.");
                     }
                 } else {
-                    System.out.println("II. So sánh dữ liệu với các file.");
-                    System.out.println("1. Dữ liệu từ Excel.json và Database.json không khớp.");
+                    System.out.println("II. Compare data with files.");
+                    System.out.println("1. Data from Excel.json and Database.json do not match.");
                 }
             }
+
+            conn = DatabaseConnection.connectToDatabase();
+            DatabaseManager.fetchAndSaveFeatureLimitation(conn);
+
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    @AfterClass
-    public void tearDown() {
-        // Dọn dẹp tài nguyên
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        if (driver != null) {
-            driver.quit();
+            if (driver != null) {
+                driver.quit();
+            }
         }
     }
 }

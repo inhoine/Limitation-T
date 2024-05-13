@@ -21,8 +21,8 @@ public class LoginActions {
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("1311518131Aa!");
 
         // Acc shop mới
-         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username"))).sendKeys("bao.tran.quoc@gosell.vn");
-         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("Bao310194@");
+         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username"))).sendKeys("StartupPlus1year@mailinator.com");
+         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password"))).sendKeys("123456a@");
 
         wait.until(ExpectedConditions.elementToBeClickable(By.className("gs-button"))).click();
         System.out.println("I. Login with owner account Successfully!");

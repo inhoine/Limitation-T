@@ -1,0 +1,14 @@
+automation/DataComparer.class
+automation/ShopPackage.class
+automation/ExcelToJsonConverter.class
+automation/TokenManager.class
+automation/APIClient.class
+automation/LocalFileWriter.class
+automation/JsonSorter.class
+automation/DatabaseConnection.class
+automation/LoginActions.class
+automation/WebDriverSetup.class
+automation/DatabaseManager.class
+automation/JsonFileManager.class
+automation/OldShopHandler.class
+automation/ExcelToJsonConverter$1.class

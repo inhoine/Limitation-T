@@ -14,7 +14,8 @@ public class LoginActions {
 
     public static String login(WebDriver driver) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
-        driver.get("https://ca-gosell.mediastep.ca");
+//        driver.get("https://ca-gosell.mediastep.ca");
+        driver.get("https://ca-gosell.mediastep.ca/home");
 
         // Acc shop cũ
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username"))).sendKeys("clone.zone.zick995@gmail.com");
